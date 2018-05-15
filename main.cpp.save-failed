@@ -2,15 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
-#include <fstream>
 using namespace std;
 
 class Node
 {
 public:
     string value;
-    string parent;
-    string child[5];
+    Node *child;
+    Node *parent;
 
 private:
 
@@ -18,9 +17,6 @@ private:
 
 Node packageNode;
 Node importNode;
-Node funcNode;
-Node bodyNode;
-Node varNode;
 
 string x;
 string result;
@@ -34,7 +30,6 @@ int parseBody();
 int parseConst();
 int parseVar();
 
-/*
 int parseVar()
 {
     int varCounter = 1+parseBody();
@@ -65,7 +60,6 @@ int parseVar()
 
 }
 
-
 int parseConst()
 {
     int constCounter = 1+parseBody();
@@ -95,43 +89,7 @@ int parseConst()
     }
     return 0;
 }
-*/
 
-int parseVar()
-{
-    int varCounter = 1 + parseFunc();
-    while(iswspace(x[varCounter]) || x[varCounter] == '{' || x[varCounter] == '}')
-    {
-        varCounter++;
-    }
-
-    if(x.substr(varCounter, 3) == "var")
-    {
-        varCounter = varCounter + 4;
-        while(iswspace(x[varCounter]))
-        {
-            varCounter++;
-        }
-        int k = varCounter;
-        string varName;
-        cout << "I am printing from inside 'parseVar()'"<< endl;
-        for(int i = k; !iswspace(x[i]) && x[i] != '('; i++)
-        {
-            varName = varName + x[i];
-            counter = i;
-        }
-        cout << "var--> " << varName << endl;
-        varNode.value = varName;
-        funcNode.child[0] = "varNode";
-        varNode.parent = "funcNode";
-        return counter;
-    }
-
-
-
-}
-
-/*
 int parseBody()
 {
     int bodyCounter = 1 + parseFunc();
@@ -149,7 +107,6 @@ int parseBody()
     {
         return bodyCounter+2;
     }
-
     else
     {
         cout << "Error: invalid syntax" << endl;
@@ -158,7 +115,6 @@ int parseBody()
     return 99;
 
 }
-*/
 
 int parseFunc()
 {
@@ -185,9 +141,6 @@ int parseFunc()
             counter = i;
         }
         cout << "func--> " << funcName << endl;
-        funcNode.value = funcName;
-        funcNode.child[0] = "bodyNode";
-        bodyNode.parent = "funcNode";
         return counter;
     }
     else
@@ -222,9 +175,6 @@ int parseImport()
             counter = i;
         }
         cout << "import--> " << importName << endl;
-        importNode.value = importName;
-        importNode.child[0] = "funcNode";
-        funcNode.parent = "importNode";
         return counter;
     }
     else
@@ -252,8 +202,7 @@ int parsePackage()
         }
         cout << "package--> " << result << endl;
         packageNode.value = result;
-        packageNode.child[0] = "importNode";
-        importNode.parent = "packageNode";
+        packageNode.child = &importNode;
         return counter;
     }
     else
@@ -271,39 +220,16 @@ int main()
     //x = "package main\nfunc main()\n{\n\tprintln(\"helloworld\")\n}";
     int result = parseVar();
     cout << "\n\n\npackageNode's value-->" << packageNode.value << endl;
-    cout << "\n\n\npackageNode's child-->" << packageNode.child[0] << endl;
-    cout << "importNode's child-->" << importNode.child[0] << endl;
-    cout << "funcNode's child-->" << funcNode.child[0] << endl;
+    cout << "\n\n\npackageNode's child-->" << importNode.child << endl;
     return 0;
-
-    /*
-    char nextCharacterCheck;
-      ifstream goFile ("example.go");
-      if (goFile.is_open()) // Check the file opend correctly
-      {
-        while(goFile >> noskipws >> nextCharacterCheck) { // process nextCharacterCheck here, along with whitespaces
-
-
-        nextCharacter(nextCharacterCheck);
-
-        }
-
-        if(goFile.eof()){ // eofBit set to true
-            cout <<"\nEnd of the file" << endl;
-        }
-        goFile.close();
-      }
-
-      else cout << "Unable to open file";
-
-      string returningWord;
-string nextWord(string nextCharacterCheck){
-
-	if(!isspace(nextCharacterCheck)){
-		returningWord += nextCharacterCheck;
-	}
-	returningWord.clear();
-	return returningWord;
-}*/
 }
 
+/*TODO*/
+//the possibility of more than one import
+//parse variable types?
+//allow for whitespace before package?
+//parseVar and ParseConst as normal, like other functions, return as though skiping over the function
+
+//parse whitespace, don't just +1 the counter!
+
+//build generic node class, have nodes for each part e.g. packageNode, importNode etc., then create node in each respective function, thus tree?
