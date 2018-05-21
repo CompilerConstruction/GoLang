@@ -9,7 +9,7 @@ E -> E + E| E - E| E * E| E/E | a | b | c
   non-terminals
 	+ - * / a b c
 	
-Sample input = "1+2-3"
+Sample input = "1-2+3"
 
                     E
                  /     \
@@ -18,6 +18,6 @@ Sample input = "1+2-3"
            +              \
            E               E
         /  |  \             \
-       E   -   E             3
+       E   -   E             2
       /          \
      1            2
