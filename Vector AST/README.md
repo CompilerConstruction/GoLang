@@ -9,7 +9,7 @@ E -> E + E| E - E| E * E| E/E | a | b | c
   non-terminals
 	+ - * / a b c
 	
-Sample input = "1-2+3"
+Sample input = "1-2+2" Line 1 of example0.go
 
                     E
                  /     \
