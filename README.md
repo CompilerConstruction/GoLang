@@ -1,5 +1,17 @@
 # GoLang  
-GoLang Compiler  
+GoLang Compiler 
+
+Students:
+* Tavi Nolan
+* Ciarán O'Brien
+
+## Nota Bene
+
+Included are two sets of progams:
+* [Node AST](https://github.com/CompilerConstruction/GoLang/tree/Ciaran-ASTNodes/ASTNodes) program we showed to you in the lab.
+* [Vector AST](https://github.com/CompilerConstruction/GoLang/tree/Ciaran-ASTNodes/Vector%20AST) program we buildt as per your suggestion of using vectors instead of Node Pointers
+
+Included in both are the testing files used by the parsers.
 
 ## Context Free Grammar Draft  
 LINE -> TYPE NAME | ASSIGNMENT  
